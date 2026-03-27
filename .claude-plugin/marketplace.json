@@ -1,0 +1,35 @@
+{
+  "name": "ai-rules",
+  "owner": {
+    "name": "Mournerliao",
+    "email": "997749670@qq.com"
+  },
+  "metadata": {
+    "description": "Shared plugins maintained in the ai-rules repository.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "frontend-code-helper",
+      "source": "./plugins/frontend-code-helper",
+      "description": "Reusable frontend engineering skills for Vue and general code structure.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Mournerliao",
+        "email": "997749670@qq.com"
+      },
+      "homepage": "https://github.com/youranreus/ai-rules/tree/master/plugins/frontend-code-helper",
+      "repository": "https://github.com/youranreus/ai-rules",
+      "license": "UNLICENSED",
+      "keywords": [
+        "frontend",
+        "vue",
+        "pinia",
+        "skills",
+        "codex",
+        "claude-code"
+      ],
+      "category": "Developer Tools"
+    }
+  ]
+}

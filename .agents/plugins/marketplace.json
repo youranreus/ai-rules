@@ -1,0 +1,20 @@
+{
+  "name": "ai-rules",
+  "interface": {
+    "displayName": "AI Rules Plugins"
+  },
+  "plugins": [
+    {
+      "name": "frontend-code-helper",
+      "source": {
+        "source": "local",
+        "path": "./plugins/frontend-code-helper"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
