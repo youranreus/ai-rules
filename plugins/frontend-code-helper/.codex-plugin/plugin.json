@@ -1,10 +1,10 @@
 {
   "name": "frontend-code-helper",
   "version": "1.0.0",
-  "description": "A shared frontend skill plugin for Codex and Claude Code.",
+  "description": "A shared frontend skill plugin for Cursor, Codex, CodeBuddy, and Claude Code.",
   "author": {
-    "name": "Mournerliao",
-    "email": "997749670@qq.com",
+    "name": "youranreus",
+    "email": "youranreus@qq.com",
     "url": "https://github.com/youranreus"
   },
   "homepage": "https://github.com/youranreus/ai-rules/tree/master/plugins/frontend-code-helper",
@@ -15,15 +15,17 @@
     "vue",
     "pinia",
     "skills",
+    "cursor",
     "codex",
+    "codebuddy",
     "claude-code"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Frontend Code Helper",
     "shortDescription": "Reusable frontend engineering skills for Vue and general code structure.",
-    "longDescription": "A shared plugin that packages frontend engineering skills for Codex and Claude Code, including Vue component structure, hooks composition, store composition, frontend practice, and A-share market reporting.",
-    "developerName": "Mournerliao",
+    "longDescription": "A shared plugin that packages frontend engineering skills for Cursor, Codex, CodeBuddy, and Claude Code, including Vue component structure, hooks composition, store composition, frontend practice, and A-share market reporting.",
+    "developerName": "youranreus",
     "category": "Developer Tools",
     "capabilities": [
       "Write",

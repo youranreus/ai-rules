@@ -1,6 +1,6 @@
 # Frontend Code Helper
 
-`frontend-code-helper` is a shared plugin package for Codex and Claude Code. It keeps one source of truth for the skills and ships dual manifests so the same plugin directory can be used by both tools.
+`frontend-code-helper` is a shared plugin package for `Cursor`, `Codex`, `CodeBuddy`, and `Claude Code`. It keeps one source of truth for skills and ships per-ecosystem manifests so the same plugin directory can be reused across all four tools.
 
 ## Included Skills
 
@@ -17,7 +17,9 @@ All runtime plugin assets live under this directory:
 ```txt
 plugins/frontend-code-helper/
 ├── .claude-plugin/plugin.json
+├── .codebuddy-plugin/plugin.json
 ├── .codex-plugin/plugin.json
+├── .cursor-plugin/plugin.json
 ├── skills/
 ├── CHANGELOG.md
 └── README.md
@@ -25,17 +27,37 @@ plugins/frontend-code-helper/
 
 New skills must be added under `plugins/frontend-code-helper/skills/`. Do not add new runtime skills to the repository root.
 
-## Codex
+## Ecosystem Entry Points
 
-This repository exposes the plugin through the Codex marketplace file at [`.agents/plugins/marketplace.json`](/Users/asherliao/Projects/ai-rules/.agents/plugins/marketplace.json).
+### Cursor
 
-For repo-local development, keep the plugin at:
+- Marketplace: `.cursor-plugin/marketplace.json` at repository root
+- Plugin manifest: `plugins/frontend-code-helper/.cursor-plugin/plugin.json`
+
+### Codex
+
+- Marketplace: `.agents/plugins/marketplace.json` at repository root
+- Plugin manifest: `plugins/frontend-code-helper/.codex-plugin/plugin.json`
+
+### CodeBuddy
+
+- Marketplace: `.codebuddy-plugin/marketplace.json` at repository root
+- Plugin manifest: `plugins/frontend-code-helper/.codebuddy-plugin/plugin.json`
+
+### Claude Code
+
+- Marketplace: `.claude-plugin/marketplace.json` at repository root
+- Plugin manifest: `plugins/frontend-code-helper/.claude-plugin/plugin.json`
+
+## Local Development
+
+Keep the plugin directory at:
 
 ```txt
-/Users/asherliao/Projects/ai-rules/plugins/frontend-code-helper
+plugins/frontend-code-helper
 ```
 
-For user-level installation in a local Codex environment, copy or symlink the plugin to `~/plugins/frontend-code-helper` and register it in `~/.agents/plugins/marketplace.json` with `./plugins/frontend-code-helper` as the source path.
+The same `skills/` directory is shared by all supported ecosystems.
 
 ## Claude Code
 
@@ -53,19 +75,17 @@ After Claude Code starts, the skills are available with namespaced commands such
 /frontend-code-helper:frontend-practice
 ```
 
-For persistent installation after publishing through a marketplace, use the official CLI:
+## CodeBuddy
+
+For local marketplace testing, add the repository root or the marketplace file:
 
 ```bash
-claude plugin marketplace add .
-claude plugin install frontend-code-helper@<marketplace> --scope user
-claude plugin install frontend-code-helper@<marketplace> --scope project
-claude plugin install frontend-code-helper@<marketplace> --scope local
+/plugin marketplace add .
+/plugin marketplace add ./.codebuddy-plugin/marketplace.json
 ```
-
-This repository also includes a Claude marketplace manifest at `.claude-plugin/marketplace.json`, so the repository root can act as a local marketplace during development.
 
 ## Release Notes
 
-- Start stable releases at `1.0.0`.
+- Stable releases start at `1.0.0`.
 - Follow semantic versioning for every published update.
-- Update both plugin manifests and [CHANGELOG.md](/Users/asherliao/Projects/ai-rules/plugins/frontend-code-helper/CHANGELOG.md) whenever skill content changes.
+- Update manifests, marketplace files, and `CHANGELOG.md` whenever distribution metadata changes.

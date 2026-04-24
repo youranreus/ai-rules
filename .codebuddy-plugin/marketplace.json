@@ -4,10 +4,8 @@
     "name": "youranreus",
     "email": "youranreus@qq.com"
   },
-  "metadata": {
-    "description": "Shared plugins maintained in the ai-rules repository.",
-    "version": "1.0.0"
-  },
+  "description": "Shared plugins maintained in the ai-rules repository.",
+  "version": "1.0.0",
   "plugins": [
     {
       "name": "frontend-code-helper",

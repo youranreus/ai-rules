@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Added native Cursor plugin and marketplace manifests.
+- Added native CodeBuddy plugin and marketplace manifests.
+- Added cross-editor project guidance through `AGENTS.md`.
+- Updated repository documentation to describe the four-ecosystem layout.
+
 ## 1.0.0
 
 - Initial dual-plugin packaging for Codex and Claude Code.

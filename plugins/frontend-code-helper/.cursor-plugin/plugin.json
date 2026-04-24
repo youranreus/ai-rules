@@ -4,8 +4,7 @@
   "description": "A shared frontend skill plugin for Cursor, Codex, CodeBuddy, and Claude Code.",
   "author": {
     "name": "youranreus",
-    "email": "youranreus@qq.com",
-    "url": "https://github.com/youranreus"
+    "email": "youranreus@qq.com"
   },
   "homepage": "https://github.com/youranreus/ai-rules/tree/master/plugins/frontend-code-helper",
   "repository": "https://github.com/youranreus/ai-rules",
