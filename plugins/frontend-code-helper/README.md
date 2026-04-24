@@ -5,6 +5,7 @@
 ## Included Skills
 
 - `frontend-practice`: 前端基础实践指南，强调单一职责、类型拆分、常量提取和工具选型。
+- `project-docs-weave`: 渐进式分析任意项目并按目录生成结构化 `README.md` 与根级 `ARCHITECTURE.md`，用于新项目认知和知识库原料沉淀。
 - `vue-component`: 指导构建 Vue 3 SFC 组件，采用分层目录与明确的脚本、模板、样式组织方式。
 - `vue-hooks`: 指导构建 Vue 3 组件 hooks，强调状态、业务逻辑、生命周期和返回区的稳定结构。
 - `vue-store-composition`: 指导在 Vue 3 + Pinia 中按 composition 拆分和组合 store。

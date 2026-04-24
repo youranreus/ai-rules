@@ -5,6 +5,7 @@
 - Added native Cursor plugin and marketplace manifests.
 - Added native CodeBuddy plugin and marketplace manifests.
 - Added cross-editor project guidance through `AGENTS.md`.
+- Added `project-docs-weave` skill for progressive project documentation weaving.
 - Updated repository documentation to describe the four-ecosystem layout.
 
 ## 1.0.0
