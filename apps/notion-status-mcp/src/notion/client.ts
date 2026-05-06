@@ -6,6 +6,24 @@ function richTextToPlainText(items: Array<{ plain_text: string }>): string {
   return items.map((item) => item.plain_text).join("").trim();
 }
 
+export function extractDatabaseId(input: string): string {
+  const compactIdMatch = input.match(/[0-9a-f]{32}/i);
+
+  if (compactIdMatch) {
+    return compactIdMatch[0];
+  }
+
+  const uuidMatch = input.match(
+    /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i,
+  );
+
+  if (uuidMatch) {
+    return uuidMatch[0].replaceAll("-", "");
+  }
+
+  throw new Error("无法从 DEFAULT_DATABASE_ID 中解析 Notion database id。");
+}
+
 function toReadableError(error: unknown): Error {
   if (!isNotionClientError(error)) {
     return error instanceof Error ? error : new Error("Unknown Notion error");
@@ -13,7 +31,7 @@ function toReadableError(error: unknown): Error {
 
   switch (error.code) {
     case APIErrorCode.ObjectNotFound:
-      return new Error("Notion data source id 不存在，或当前集成没有访问权限。");
+      return new Error("Notion database id 不存在，或当前集成没有访问权限。");
     case APIErrorCode.Unauthorized:
       return new Error("NOTION_TOKEN 无效或已失效。");
     case APIErrorCode.RestrictedResource:
@@ -27,9 +45,41 @@ function toReadableError(error: unknown): Error {
 
 export class NotionStatusClient {
   private readonly client: Client;
+  private readonly dataSourceIdCache = new Map<string, string>();
 
   constructor(auth: string) {
     this.client = new Client({ auth });
+  }
+
+  async resolvePrimaryDataSourceId(databaseIdOrUrl: string): Promise<string> {
+    const databaseId = extractDatabaseId(databaseIdOrUrl);
+    const cached = this.dataSourceIdCache.get(databaseId);
+
+    if (cached) {
+      return cached;
+    }
+
+    try {
+      const response = await this.client.databases.retrieve({
+        database_id: databaseId,
+      });
+
+      if (!("data_sources" in response) || response.data_sources.length === 0) {
+        throw new Error("Notion database 没有关联的 data source。");
+      }
+
+      const dataSourceId = response.data_sources[0]?.id;
+
+      if (!dataSourceId) {
+        throw new Error("无法从 Notion database 中读取 data source id。");
+      }
+
+      this.dataSourceIdCache.set(databaseId, dataSourceId);
+
+      return dataSourceId;
+    } catch (error) {
+      throw toReadableError(error);
+    }
   }
 
   async getDataSourceMetadata(dataSourceId: string): Promise<DataSourceMetadata> {

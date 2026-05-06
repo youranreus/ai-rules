@@ -26,7 +26,7 @@ apps/notion-status-mcp/
 
 ```bash
 NOTION_TOKEN=ntn_xxx
-DEFAULT_DATABASE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DEFAULT_DATABASE_ID=https://www.notion.so/workspace/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 API_KEY=
 HOST=127.0.0.1
 PORT=3000
@@ -36,7 +36,7 @@ CORS_ORIGIN=*
 说明：
 
 - `NOTION_TOKEN` 必填。
-- `DEFAULT_DATABASE_ID` 必填，当前 Notion SDK 使用 `data source` API，因此这里实际应填对应 data source id。
+- `DEFAULT_DATABASE_ID` 必填，填写 Notion URL 中的 database id 即可，也可以直接填完整 database URL。
 - `API_KEY` 必填，HTTP `/mcp` 请求需通过 `Authorization: Bearer <API_KEY>` 或 `x-api-key` 传入。
 - `HOST` 默认 `127.0.0.1`；需要外部访问时设置为 `0.0.0.0`。
 - `PORT` 仅在 `http` 模式下生效。
@@ -102,7 +102,7 @@ curl -X POST http://127.0.0.1:3000/mcp \
 
 ```json
 {
-  "filter_status": ["处理中", "待处理"]
+  "filter_status": ["完成"]
 }
 ```
 
@@ -122,9 +122,10 @@ curl -X POST http://127.0.0.1:3000/mcp \
 
 说明：
 
-- `query_status_counts` 不接收 `database_id`，固定读取环境变量 `DEFAULT_DATABASE_ID`。
+- `query_status_counts` 不接收 `database_id`，固定读取环境变量 `DEFAULT_DATABASE_ID`，并自动解析为 Notion data source id。
 - `query_status_counts` 不接收 `status_property`，固定统计 `完成情况` 属性列。
-- `完成情况` 支持 `status`、`select`、`multi_select`。
+- `filter_status` 可选项为 `未开始`、`处理中`、`完成`，默认值为 `完成`。
+- `完成情况` 属性列支持 Notion 的 `status`、`select`、`multi_select` 类型。
 - 空值会统计为 `未设置`。
 
 ## 开发

@@ -1,4 +1,5 @@
 export type TransportMode = "stdio" | "http";
+export type CompletionStatus = "未开始" | "处理中" | "完成";
 
 export interface AppConfig {
   notionToken: string;
@@ -11,7 +12,7 @@ export interface AppConfig {
 }
 
 export interface QueryStatusCountsArgs {
-  filter_status?: string[];
+  filter_status?: CompletionStatus[];
 }
 
 export interface NotionPageLike {

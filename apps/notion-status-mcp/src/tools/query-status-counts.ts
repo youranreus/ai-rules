@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import type {
+  CompletionStatus,
   DataSourceMetadata,
   NotionPageLike,
   NotionPropertyLike,
@@ -13,6 +14,8 @@ import { NotionStatusClient } from "../notion/client.js";
 
 const STATUS_PROPERTY = "完成情况";
 const EMPTY_STATUS = "未设置";
+const DEFAULT_FILTER_STATUS: CompletionStatus[] = ["完成"];
+const COMPLETION_STATUS_OPTIONS = ["未开始", "处理中", "完成"] as const;
 
 function getStatusNames(property: NotionPropertyLike | undefined): string[] {
   if (!property) {
@@ -61,15 +64,14 @@ export function buildStatusCountsResult(
   metadata: DataSourceMetadata,
   args: QueryStatusCountsArgs,
 ): StatusCountsResult {
-  const requestedStatuses = args.filter_status?.length
-    ? new Set(args.filter_status)
-    : null;
+  const filterStatus = args.filter_status?.length
+    ? args.filter_status
+    : DEFAULT_FILTER_STATUS;
+  const requestedStatuses = new Set(filterStatus);
   const countsByStatus: Record<string, number> = {};
 
-  if (requestedStatuses) {
-    for (const status of requestedStatuses) {
-      countsByStatus[status] = 0;
-    }
+  for (const status of requestedStatuses) {
+    countsByStatus[status] = 0;
   }
 
   for (const page of pages) {
@@ -77,7 +79,7 @@ export function buildStatusCountsResult(
     const statusNames = getStatusNames(property);
 
     for (const name of statusNames) {
-      if (requestedStatuses && !requestedStatuses.has(name)) {
+      if (!requestedStatuses.has(name as CompletionStatus)) {
         continue;
       }
 
@@ -114,12 +116,12 @@ export function registerQueryStatusCountsTool(
   server.registerTool(
     "query_status_counts",
     {
-      description: "按状态列统计指定 Notion 数据库中的需求数量。",
+      description: "获取维护者的需求统计信息，支持按完成情况筛选",
       inputSchema: {
         filter_status: z
-          .array(z.string().min(1))
-          .optional()
-          .describe("仅统计指定完成情况；为空时统计全部完成情况"),
+          .array(z.enum(COMPLETION_STATUS_OPTIONS))
+          .default(DEFAULT_FILTER_STATUS)
+          .describe("仅统计指定完成情况。可选项：未开始、处理中、完成。默认值：完成。"),
       },
       outputSchema: {
         total: z.number().int().nonnegative(),
@@ -132,9 +134,10 @@ export function registerQueryStatusCountsTool(
       },
     },
     async (args) => {
+      const dataSourceId = await notionClient.resolvePrimaryDataSourceId(databaseId);
       const [metadata, pages] = await Promise.all([
-        notionClient.getDataSourceMetadata(databaseId),
-        notionClient.listPages(databaseId),
+        notionClient.getDataSourceMetadata(dataSourceId),
+        notionClient.listPages(dataSourceId),
       ]);
 
       const structuredContent = buildStatusCountsResult(
