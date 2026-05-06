@@ -14,6 +14,10 @@
 
 - `frontend-code-helper`
 
+当前应用：
+
+- `apps/notion-status-mcp`：独立的 Notion 状态统计 MCP Server。
+
 ## 当前目录结构
 
 ```txt
@@ -24,6 +28,8 @@
 ├── .cursor-plugin/marketplace.json
 ├── .cursor/rules/user-rules.md
 ├── AGENTS.md
+├── apps/
+│   └── notion-status-mcp/
 └── plugins/
     └── frontend-code-helper/
         ├── .claude-plugin/plugin.json
@@ -37,6 +43,7 @@
 
 说明：
 
+- `apps/` 放置独立可运行应用，不属于 `frontend-code-helper` 插件运行时目录。
 - `plugins/frontend-code-helper/` 是唯一插件运行时根目录。
 - 技能内容只维护在 `plugins/frontend-code-helper/skills/`。
 - 仓库根目录的 `skills/` 不再作为运行时来源。

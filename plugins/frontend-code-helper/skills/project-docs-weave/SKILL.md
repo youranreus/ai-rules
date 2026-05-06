@@ -1,6 +1,7 @@
 ---
 
 ## name: project-docs-weave
+
 description: 渐进式分析任意项目并按目录生成结构化 README.md 文档，沉淀为可检索的知识库原料。Use when the user wants to quickly understand a new project, bootstrap modular documentation, generate README.md files by directory, build architecture notes from code, or create a progressive project documentation workflow with staged confirmation.
 
 # 渐进式项目文档织造
