@@ -12,11 +12,12 @@ async function main(): Promise<void> {
     }
 
     await startHttpServer(() => createServer(config.notionToken, config.databaseId), {
+      host: config.host,
       port: config.port,
       corsOrigin: config.corsOrigin,
       apiKey: config.apiKey,
     });
-    console.error(`notion-status-mcp listening on http://localhost:${config.port}`);
+    console.error(`notion-status-mcp listening on http://${config.host}:${config.port}`);
     return;
   }
 

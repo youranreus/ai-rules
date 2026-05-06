@@ -6,6 +6,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 
 interface HttpServerOptions {
+  host: string;
   port: number;
   corsOrigin: string;
   apiKey: string;
@@ -58,7 +59,7 @@ export async function startHttpServer(
   createServer: () => McpServer,
   options: HttpServerOptions,
 ): Promise<void> {
-  const app = createMcpExpressApp();
+  const app = createMcpExpressApp({ host: options.host });
   app.set("apiKey", options.apiKey);
   app.use(express.json({ limit: "1mb" }));
   app.use(
@@ -113,7 +114,7 @@ export async function startHttpServer(
   });
 
   await new Promise<void>((resolve, reject) => {
-    const httpServer = app.listen(options.port, () => {
+    const httpServer = app.listen(options.port, options.host, () => {
       resolve();
     });
 

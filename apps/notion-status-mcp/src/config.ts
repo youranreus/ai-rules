@@ -65,6 +65,7 @@ const envSchema = z.object({
   NOTION_TOKEN: z.string().min(1, "NOTION_TOKEN is required"),
   DEFAULT_DATABASE_ID: z.string().min(1, "DEFAULT_DATABASE_ID is required"),
   API_KEY: z.string().optional(),
+  HOST: z.string().min(1).default("127.0.0.1"),
   PORT: z
     .string()
     .optional()
@@ -83,6 +84,7 @@ export function getConfig(argv = process.argv.slice(2)): AppConfig {
     notionToken: env.NOTION_TOKEN,
     databaseId: env.DEFAULT_DATABASE_ID,
     apiKey: env.API_KEY,
+    host: env.HOST,
     port: args.port ?? env.PORT,
     corsOrigin: env.CORS_ORIGIN,
     transport: args.transport,

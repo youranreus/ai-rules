@@ -28,6 +28,7 @@ apps/notion-status-mcp/
 NOTION_TOKEN=ntn_xxx
 DEFAULT_DATABASE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 API_KEY=
+HOST=127.0.0.1
 PORT=3000
 CORS_ORIGIN=*
 ```
@@ -37,6 +38,7 @@ CORS_ORIGIN=*
 - `NOTION_TOKEN` 必填。
 - `DEFAULT_DATABASE_ID` 必填，当前 Notion SDK 使用 `data source` API，因此这里实际应填对应 data source id。
 - `API_KEY` 必填，HTTP `/mcp` 请求需通过 `Authorization: Bearer <API_KEY>` 或 `x-api-key` 传入。
+- `HOST` 默认 `127.0.0.1`；需要外部访问时设置为 `0.0.0.0`。
 - `PORT` 仅在 `http` 模式下生效。
 - `CORS_ORIGIN` 默认 `*`。
 
@@ -68,6 +70,12 @@ HTTP 模式：
 
 ```bash
 pnpm start -- --transport http --port 3000
+```
+
+允许外部访问：
+
+```bash
+HOST=0.0.0.0 pnpm start -- --transport http --port 3000
 ```
 
 健康检查：

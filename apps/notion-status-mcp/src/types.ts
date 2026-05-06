@@ -4,6 +4,7 @@ export interface AppConfig {
   notionToken: string;
   databaseId: string;
   apiKey?: string;
+  host: string;
   port: number;
   corsOrigin: string;
   transport: TransportMode;
