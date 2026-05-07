@@ -1,6 +1,6 @@
 import { APIErrorCode, Client, isFullPage, isNotionClientError } from "@notionhq/client";
 
-import type { DataSourceMetadata, NotionPageLike } from "../types.js";
+import type { AddMessageResult, DataSourceMetadata, NotionPageLike } from "../types.js";
 
 function richTextToPlainText(items: Array<{ plain_text: string }>): string {
   return items.map((item) => item.plain_text).join("").trim();
@@ -21,7 +21,7 @@ export function extractDatabaseId(input: string): string {
     return uuidMatch[0].replaceAll("-", "");
   }
 
-  throw new Error("无法从 DEFAULT_DATABASE_ID 中解析 Notion database id。");
+  throw new Error("无法从 WORKING_DATABASE_ID 中解析 Notion database id。");
 }
 
 function toReadableError(error: unknown): Error {
@@ -134,6 +134,63 @@ export class NotionStatusClient {
       }
 
       return results;
+    } catch (error) {
+      throw toReadableError(error);
+    }
+  }
+
+  async createMessagePage(
+    databaseIdOrUrl: string,
+    username: string,
+    content: string,
+  ): Promise<AddMessageResult> {
+    const databaseId = extractDatabaseId(databaseIdOrUrl);
+
+    try {
+      const page = await this.client.pages.create({
+        parent: {
+          type: "database_id",
+          database_id: databaseId,
+        },
+        properties: {
+          用户名: {
+            title: [
+              {
+                text: {
+                  content: username,
+                },
+              },
+            ],
+          },
+          留言内容: {
+            rich_text: [
+              {
+                text: {
+                  content,
+                },
+              },
+            ],
+          },
+          留言时间: {
+            date: {
+              start: new Date().toISOString(),
+            },
+          },
+          完成状态: {
+            status: {
+              name: "未开始",
+            },
+          },
+        },
+      });
+
+      return {
+        page_id: page.id,
+        username,
+        created_time:
+          "created_time" in page ? page.created_time : new Date().toISOString(),
+        status: "未开始",
+      };
     } catch (error) {
       throw toReadableError(error);
     }

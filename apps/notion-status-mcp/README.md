@@ -5,6 +5,7 @@
 当前实现为 P0 MVP，包含：
 
 - `query_status_counts`
+- `add_message`
 - Notion 分页读取
 - `stdio` 传输
 - HTTP `/mcp` 与 `/health`
@@ -26,7 +27,8 @@ apps/notion-status-mcp/
 
 ```bash
 NOTION_TOKEN=ntn_xxx
-DEFAULT_DATABASE_ID=https://www.notion.so/workspace/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+WORKING_DATABASE_ID=https://www.notion.so/workspace/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MESSAGE_DATABASE_ID=
 API_KEY=
 HOST=127.0.0.1
 PORT=3000
@@ -36,7 +38,8 @@ CORS_ORIGIN=*
 说明：
 
 - `NOTION_TOKEN` 必填。
-- `DEFAULT_DATABASE_ID` 必填，填写 Notion URL 中的 database id 即可，也可以直接填完整 database URL。
+- `WORKING_DATABASE_ID` 必填，填写工作状态数据库 URL 或 database id。
+- `MESSAGE_DATABASE_ID` 必填，填写留言数据库 URL 或 database id。
 - `API_KEY` 必填，HTTP `/mcp` 请求需通过 `Authorization: Bearer <API_KEY>` 或 `x-api-key` 传入。
 - `HOST` 默认 `127.0.0.1`；需要外部访问时设置为 `0.0.0.0`。
 - `PORT` 仅在 `http` 模式下生效。
@@ -63,7 +66,7 @@ pnpm install --registry https://registry.npmjs.org
 stdio 模式：
 
 ```bash
-NOTION_TOKEN=ntn_xxx DEFAULT_DATABASE_ID=xxx pnpm start -- --transport stdio
+NOTION_TOKEN=ntn_xxx WORKING_DATABASE_ID=xxx MESSAGE_DATABASE_ID=yyy pnpm start -- --transport stdio
 ```
 
 HTTP 模式：
@@ -122,7 +125,7 @@ curl -X POST http://127.0.0.1:3000/mcp \
 
 说明：
 
-- `query_status_counts` 不接收 `database_id`，固定读取环境变量 `DEFAULT_DATABASE_ID`，并自动解析为 Notion data source id。
+- `query_status_counts` 不接收 `database_id`，固定读取环境变量 `WORKING_DATABASE_ID`，并自动解析为 Notion data source id。
 - `query_status_counts` 不接收 `status_property`，固定统计 `完成情况` 属性列。
 - `filter_status` 可选项为 `未开始`、`处理中`、`完成`，默认值为 `完成`。
 - `完成情况` 属性列支持 Notion 的 `status`、`select`、`multi_select` 类型。
