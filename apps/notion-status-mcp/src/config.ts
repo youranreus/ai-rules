@@ -63,7 +63,8 @@ function parseArgs(argv: string[]): z.infer<typeof argsSchema> {
 
 const envSchema = z.object({
   NOTION_TOKEN: z.string().min(1, "NOTION_TOKEN is required"),
-  DEFAULT_DATABASE_ID: z.string().min(1, "DEFAULT_DATABASE_ID is required"),
+  WORKING_DATABASE_ID: z.string().min(1, "WORKING_DATABASE_ID is required"),
+  MESSAGE_DATABASE_ID: z.string().min(1, "MESSAGE_DATABASE_ID is required"),
   API_KEY: z.string().optional(),
   HOST: z.string().min(1).default("127.0.0.1"),
   PORT: z
@@ -82,7 +83,8 @@ export function getConfig(argv = process.argv.slice(2)): AppConfig {
 
   return {
     notionToken: env.NOTION_TOKEN,
-    databaseId: env.DEFAULT_DATABASE_ID,
+    databaseId: env.WORKING_DATABASE_ID,
+    messageDatabaseId: env.MESSAGE_DATABASE_ID,
     apiKey: env.API_KEY,
     host: env.HOST,
     port: args.port ?? env.PORT,

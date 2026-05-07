@@ -4,6 +4,7 @@ export type CompletionStatus = "未开始" | "处理中" | "完成";
 export interface AppConfig {
   notionToken: string;
   databaseId: string;
+  messageDatabaseId: string;
   apiKey?: string;
   host: string;
   port: number;
@@ -14,6 +15,22 @@ export interface AppConfig {
 export interface QueryStatusCountsArgs {
   filter_status?: CompletionStatus[];
 }
+
+export interface AddMessageArgs {
+  title: string;
+  username: string;
+  content: string;
+  icon?: string;
+}
+
+export type AddMessageResult = {
+  page_id: string;
+  title: string;
+  username: string;
+  created_time: string;
+  status: string;
+  icon?: string;
+};
 
 export interface NotionPageLike {
   id: string;
