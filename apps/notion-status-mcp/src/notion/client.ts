@@ -144,6 +144,7 @@ export class NotionStatusClient {
     title: string,
     username: string,
     content: string,
+    icon?: string,
   ): Promise<AddMessageResult> {
     const databaseId = extractDatabaseId(databaseIdOrUrl);
 
@@ -153,6 +154,7 @@ export class NotionStatusClient {
           type: "database_id",
           database_id: databaseId,
         },
+        ...(icon ? { icon: { type: "emoji", emoji: icon } } : {}),
         properties: {
           标题: {
             rich_text: [
@@ -215,6 +217,7 @@ export class NotionStatusClient {
         created_time:
           "created_time" in page ? page.created_time : new Date().toISOString(),
         status: "未开始",
+        icon,
       };
     } catch (error) {
       throw toReadableError(error);

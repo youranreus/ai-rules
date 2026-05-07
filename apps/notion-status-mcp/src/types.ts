@@ -20,6 +20,7 @@ export interface AddMessageArgs {
   title: string;
   username: string;
   content: string;
+  icon?: string;
 }
 
 export type AddMessageResult = {
@@ -28,6 +29,7 @@ export type AddMessageResult = {
   username: string;
   created_time: string;
   status: string;
+  icon?: string;
 };
 
 export interface NotionPageLike {

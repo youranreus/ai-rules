@@ -11,15 +11,22 @@ function formatSummary(
   username: string,
   createdTime: string,
   status: string,
+  icon?: string,
 ): string {
-  return [
+  const lines = [
     `留言已创建`,
     `页面 ID：${pageId}`,
     `标题：${title}`,
     `用户名：${username}`,
     `创建时间：${createdTime}`,
     `完成状态：${status}`,
-  ].join("\n");
+  ];
+
+  if (icon) {
+    lines.push(`页面图标：${icon}`);
+  }
+
+  return lines.join("\n");
 }
 
 export function registerAddMessageTool(
@@ -35,6 +42,7 @@ export function registerAddMessageTool(
         title: z.string().describe("留言标题，由模型自动生成简短概括"),
         username: z.string().describe("留言用户名"),
         content: z.string().describe("留言内容"),
+        icon: z.string().optional().describe("页面图标emoji，由模型根据内容自动选择，可为空"),
       },
       outputSchema: {
         page_id: z.string(),
@@ -42,6 +50,7 @@ export function registerAddMessageTool(
         username: z.string(),
         created_time: z.string(),
         status: z.string(),
+        icon: z.string().optional(),
       },
       annotations: {
         readOnlyHint: false,
@@ -55,6 +64,7 @@ export function registerAddMessageTool(
         input.title,
         input.username,
         input.content,
+        input.icon,
       );
 
       return {
@@ -67,6 +77,7 @@ export function registerAddMessageTool(
               structuredContent.username,
               structuredContent.created_time,
               structuredContent.status,
+              structuredContent.icon,
             ),
           },
         ],
