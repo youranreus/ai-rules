@@ -141,6 +141,7 @@ export class NotionStatusClient {
 
   async createMessagePage(
     databaseIdOrUrl: string,
+    title: string,
     username: string,
     content: string,
   ): Promise<AddMessageResult> {
@@ -153,6 +154,15 @@ export class NotionStatusClient {
           database_id: databaseId,
         },
         properties: {
+          标题: {
+            rich_text: [
+              {
+                text: {
+                  content: title,
+                },
+              },
+            ],
+          },
           用户名: {
             title: [
               {
@@ -200,6 +210,7 @@ export class NotionStatusClient {
 
       return {
         page_id: page.id,
+        title,
         username,
         created_time:
           "created_time" in page ? page.created_time : new Date().toISOString(),

@@ -17,12 +17,14 @@ export interface QueryStatusCountsArgs {
 }
 
 export interface AddMessageArgs {
+  title: string;
   username: string;
   content: string;
 }
 
 export type AddMessageResult = {
   page_id: string;
+  title: string;
   username: string;
   created_time: string;
   status: string;
