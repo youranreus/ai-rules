@@ -182,6 +182,20 @@ export class NotionStatusClient {
             },
           },
         },
+        children: [
+          {
+            object: "block",
+            type: "paragraph",
+            paragraph: {
+              rich_text: [
+                {
+                  type: "text",
+                  text: { content },
+                },
+              ],
+            },
+          },
+        ],
       });
 
       return {
