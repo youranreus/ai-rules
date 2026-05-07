@@ -157,7 +157,7 @@ export class NotionStatusClient {
         ...(icon ? { icon: { type: "emoji", emoji: icon } } : {}),
         properties: {
           标题: {
-            rich_text: [
+            title: [
               {
                 text: {
                   content: title,
@@ -166,7 +166,7 @@ export class NotionStatusClient {
             ],
           },
           用户名: {
-            title: [
+            rich_text: [
               {
                 text: {
                   content: username,
@@ -189,7 +189,7 @@ export class NotionStatusClient {
             },
           },
           完成状态: {
-            status: {
+            select: {
               name: "未开始",
             },
           },
